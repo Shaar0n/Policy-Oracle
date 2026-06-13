@@ -1,6 +1,6 @@
-# Policy Q&A — Local RAG System
+# Policy Q&A - Local RAG System
 
-A fully offline, privacy-first question-answering system for policy documents. Drop in your PDFs, Word docs, and text files, provide a spreadsheet of questions, and get answers with source citations written back to Excel — all running locally on your machine with no data sent to external APIs.
+A fully offline, privacy-first question-answering system for policy documents. Drop in your PDFs, Word docs, and text files, provide a spreadsheet of questions, and get answers with source citations written back to Excel - all running locally on your machine with no data sent to external APIs.
 
 ---
 
@@ -32,19 +32,19 @@ Policy files (PDF / DOCX / TXT)
   Answer + Source + Confidence written to Excel
 ```
 
-Every component runs locally — embeddings, vector search, and the LLM. Nothing leaves your machine.
+Every component runs locally - embeddings, vector search, and the LLM. Nothing leaves your machine.
 
 ---
 
 ## Features
 
-- **100% offline** — works air-gapped after initial model download
-- **Multi-format ingestion** — PDF (text-based), DOCX, DOC, TXT, Markdown
-- **Source citations** — every answer cites the exact file and page number
-- **Confidence scoring** — High / Medium / Low based on retrieval similarity
-- **Hallucination guard** — model is instructed to say "Not found in the provided policies" rather than guess
-- **Excel in, Excel out** — reads your question spreadsheet, writes answers beside each question
-- **Persistent index** — re-ingest only when policies change, not every run
+- **100% offline** - works air-gapped after initial model download
+- **Multi-format ingestion** - PDF (text-based), DOCX, DOC, TXT, Markdown
+- **Source citations** - every answer cites the exact file and page number
+- **Confidence scoring** - High / Medium / Low based on retrieval similarity
+- **Hallucination guard** - model is instructed to say "Not found in the provided policies" rather than guess
+- **Excel in, Excel out** - reads your question spreadsheet, writes answers beside each question
+- **Persistent index** - re-ingest only when policies change, not every run
 
 ---
 
@@ -92,7 +92,7 @@ pip install -r requirements.txt
 
 ## Usage
 
-### Step 1 — Add your files
+### Step 1 - Add your files
 
 ```
 policy-qa/
@@ -102,19 +102,19 @@ policy-qa/
 
 If your Excel has no header row, the system detects this automatically and reads all rows as questions.
 
-### Step 2 — Ingest policies
+### Step 2 - Ingest policies
 
 ```bash
 python main.py ingest
 ```
 
-This parses all documents, chunks them, generates embeddings, and stores them in a local ChromaDB index. Run once — or re-run with `--force` when policies change.
+This parses all documents, chunks them, generates embeddings, and stores them in a local ChromaDB index. Run once - or re-run with `--force` when policies change.
 
 ```bash
 python main.py ingest --force   # rebuild index from scratch
 ```
 
-### Step 3 — Answer questions
+### Step 3 - Answer questions
 
 ```bash
 python main.py query
@@ -144,11 +144,11 @@ The output Excel adds three columns beside your original questions:
 |---|---|---|---|
 | What is the data retention period? | Records are retained for 7 years after account closure. | `data-policy.pdf p.4` | High |
 | Who approves policy exceptions? | The Information Security Officer must approve all exceptions. | `access-policy.docx p.2` | High |
-| Does this cover dental claims? | Not found in the provided policies. | — | — |
+| Does this cover dental claims? | Not found in the provided policies. | - | - |
 
-- **Answer** — grounded response from the LLM, based only on retrieved policy text
-- **Sources** — file name and page number for manual verification
-- **Confidence** — based on cosine similarity between the question and retrieved chunks
+- **Answer** - grounded response from the LLM, based only on retrieved policy text
+- **Sources** - file name and page number for manual verification
+- **Confidence** - based on cosine similarity between the question and retrieved chunks
 
 ---
 
