@@ -1,4 +1,4 @@
-# Policy Q&A — Local RAG System
+# Policy Q&A - Local RAG System
 
 A fully offline, privacy-first question-answering system for policy documents. Drop in your PDFs, Word docs, and text files, provide a spreadsheet of questions, and get answers with source citations written back to Excel — all running locally on your machine with no data sent to external APIs.
 
