@@ -1,0 +1,220 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\Users\shall> ollama --version
+ollama version is 0.30.8
+PS C:\Users\shall> ollama pull qwen2.5:14b
+pulling manifest
+pulling 2049f5674b1e:  25% ▕██████████████                                            ▏ 2.2 GB/9.0 GB
+Error: max retries exceeded: Get "https://dd20bb891979d25aebc8bec07b2b3bbc.r2.cloudflarestorage.com/ollama/docker/registry/v2/blobs/sha256/20/2049f5674b1e92b4464e5729975c9689fcfbf0b0e4443ccf10b5339f370f9a54/data?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=66040c77ac1b787c3af820529859349a%2F20260613%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20260613T084718Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=67d4357f9374f4c88b77984e0e1d923d52f8ae1d5dc917048bb45479ed8e454a": dial tcp: lookup dd20bb891979d25aebc8bec07b2b3bbc.r2.cloudflarestorage.com: no such host
+PS C:\Users\shall> ollama pull qwen2.5:14b
+pulling manifest
+pulling 2049f5674b1e: 100% ▕██████████████████████████████████████████████████████████▏ 9.0 GB
+pulling 66b9ea09bd5b: 100% ▕██████████████████████████████████████████████████████████▏   68 B
+pulling eb4402837c78: 100% ▕██████████████████████████████████████████████████████████▏ 1.5 KB
+pulling 832dd9e00a68: 100% ▕██████████████████████████████████████████████████████████▏  11 KB
+pulling db59b814cab7: 100% ▕██████████████████████████████████████████████████████████▏  488 B
+verifying sha256 digest
+writing manifest
+success
+PS C:\Users\shall>  ollama pull nomic-embed-text
+pulling manifest
+pulling 970aa74c0a90: 100% ▕██████████████████████████████████████████████████████████▏ 274 MB
+pulling c71d239df917: 100% ▕██████████████████████████████████████████████████████████▏  11 KB
+pulling ce4a164fc046: 100% ▕██████████████████████████████████████████████████████████▏   17 B
+pulling 31df23ea7daa: 100% ▕██████████████████████████████████████████████████████████▏  420 B
+verifying sha256 digest
+writing manifest
+success
+PS C:\Users\shall> cd C:\Users\shall\policy-qa
+PS C:\Users\shall\policy-qa> python -m venv .venv
+PS C:\Users\shall\policy-qa> .venv\Scripts\activate
+.venv\Scripts\activate : File C:\Users\shall\policy-qa\.venv\Scripts\Activate.ps1 cannot be loaded because running
+scripts is disabled on this system. For more information, see about_Execution_Policies at
+https:/go.microsoft.com/fwlink/?LinkID=135170.
+At line:1 char:1
++ .venv\Scripts\activate
++ ~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : SecurityError: (:) [], PSSecurityException
+    + FullyQualifiedErrorId : UnauthorizedAccess
+PS C:\Users\shall\policy-qa> .venv\Scripts\activate
+.venv\Scripts\activate : File C:\Users\shall\policy-qa\.venv\Scripts\Activate.ps1 cannot be loaded because running
+scripts is disabled on this system. For more information, see about_Execution_Policies at
+https:/go.microsoft.com/fwlink/?LinkID=135170.
+At line:1 char:1
++ .venv\Scripts\activate
++ ~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : SecurityError: (:) [], PSSecurityException
+    + FullyQualifiedErrorId : UnauthorizedAccess
+PS C:\Users\shall\policy-qa> python main.py ingest
+Traceback (most recent call last):
+  File "C:\Users\shall\policy-qa\main.py", line 61, in <module>
+    main()
+  File "C:\Users\shall\policy-qa\main.py", line 35, in main
+    from src.ingest import build_index
+  File "C:\Users\shall\policy-qa\src\ingest.py", line 5, in <module>
+    from src.config import (
+ImportError: cannot import name 'SUPPORTED_EXTENSIONS' from 'src.config' (C:\Users\shall\policy-qa\src\config.py)
+PS C:\Users\shall\policy-qa> python main.py ingest
+Found 6 supported files in C:\Users\shall\policy-qa\policies
+  Parsing: CICA Notice.pdf
+    -> 4 chunks accumulated
+  Parsing: INIE12072025848044IEBOTA08901 (2).pdf
+    -> 14 chunks accumulated
+  Parsing: Medicover Superior PW.pdf
+    -> 49 chunks accumulated
+  Parsing: Medicover Superior receipt.pdf
+    -> 50 chunks accumulated
+  Parsing: Medicover-Superior-IPID.pdf.pdf
+    -> 54 chunks accumulated
+  Parsing: Terms of Business.pdf
+    -> 75 chunks accumulated
+
+Embedding 75 chunks via nomic-embed-text...
+  Stored 75/75 chunks
+
+Ingestion complete. 75 chunks indexed.
+PS C:\Users\shall\policy-qa> python main.py query
+Question column: '1) Does this poolicy cover dental claims , example getting a root canal?' | 0 questions
+
+Results saved to C:\Users\shall\policy-qa\output\answers.xlsx
+PS C:\Users\shall\policy-qa> python main.py query
+Question column: 'Question' | 1 questions
+
+[1/1] 1) Does this poolicy cover dental claims , example getting a root canal?
+  -> [Medium] Medicover Superior PW.pdf p.19; Medicover Superior PW.pdf p.23; Medicover Superior PW.pdf p.17; Medicover Superior PW.pdf p.29; Medicover Superior PW.pdf p.20
+
+Results saved to C:\Users\shall\policy-qa\output\answers.xlsx
+PS C:\Users\shall\policy-qa> python main.py query
+Question column: 'Question' | 2 questions
+
+[1/2] 1) Does this poolicy cover dental claims , example getting a root canal?
+  -> [Medium] Medicover Superior PW.pdf p.19; Medicover Superior PW.pdf p.23; Medicover Superior PW.pdf p.17; Medicover Superior PW.pdf p.29; Medicover Superior PW.pdf p.20
+
+[2/2] 2) Does this policy cover doctor fees for something like fever?
+  -> [Medium] INIE12072025848044IEBOTA08901 (2).pdf p.2; Medicover Superior PW.pdf p.17; Medicover Superior PW.pdf p.23; Medicover Superior PW.pdf p.21
+
+Traceback (most recent call last):
+  File "C:\Users\shall\policy-qa\main.py", line 61, in <module>
+    main()
+  File "C:\Users\shall\policy-qa\main.py", line 41, in main
+    run(
+  File "C:\Users\shall\policy-qa\src\query.py", line 131, in run
+    df.to_excel(output_file, index=False)
+  File "C:\Users\shall\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\util\_decorators.py", line 333, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\shall\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\core\generic.py", line 2417, in to_excel
+    formatter.write(
+  File "C:\Users\shall\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\formats\excel.py", line 943, in write
+    writer = ExcelWriter(
+  File "C:\Users\shall\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\excel\_openpyxl.py", line 61, in __init__
+    super().__init__(
+  File "C:\Users\shall\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\excel\_base.py", line 1246, in __init__
+    self._handles = get_handle(
+  File "C:\Users\shall\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\common.py", line 882, in get_handle
+    handle = open(handle, ioargs.mode)
+PermissionError: [Errno 13] Permission denied: 'C:\\Users\\shall\\policy-qa\\output\\answers.xlsx'
+PS C:\Users\shall\policy-qa> python main.py query
+Question column: 'Question' | 2 questions
+
+[1/2] 1) Does this poolicy cover dental claims , example getting a root canal?
+  -> [Medium] Medicover Superior PW.pdf p.19; Medicover Superior PW.pdf p.23; Medicover Superior PW.pdf p.17; Medicover Superior PW.pdf p.29; Medicover Superior PW.pdf p.20
+
+[2/2] 2) Does this policy cover doctor fees for something like fever?
+  -> [Medium] INIE12072025848044IEBOTA08901 (2).pdf p.2; Medicover Superior PW.pdf p.17; Medicover Superior PW.pdf p.23; Medicover Superior PW.pdf p.21
+
+Results saved to C:\Users\shall\policy-qa\output\answers.xlsx
+PS C:\Users\shall\policy-qa>  python main.py ingest --force
+Deleted existing index.
+Found 6 supported files in C:\Users\shall\policy-qa\policies
+  Parsing: CICA Notice.pdf
+    -> 4 chunks accumulated
+  Parsing: INIE12072025848044IEBOTA08901 (2).pdf
+    -> 14 chunks accumulated
+  Parsing: Medicover Superior PW.pdf
+    -> 49 chunks accumulated
+  Parsing: Medicover Superior receipt.pdf
+    -> 50 chunks accumulated
+  Parsing: Medicover-Superior-IPID.pdf.pdf
+    -> 54 chunks accumulated
+  Parsing: Terms of Business.pdf
+    -> 75 chunks accumulated
+
+Embedding 75 chunks via nomic-embed-text...
+  Stored 75/75 chunks
+
+Ingestion complete. 75 chunks indexed.
+PS C:\Users\shall\policy-qa> python main.py query
+Question column: 'Question' | 2 questions
+
+[1/2] 1) Does this poolicy cover dental claims , example getting a root canal?
+  -> [Medium] Medicover Superior PW.pdf p.19; Medicover Superior PW.pdf p.23; Medicover Superior PW.pdf p.17; Medicover Superior PW.pdf p.29; Medicover Superior PW.pdf p.20
+
+[2/2] 2) Does this policy cover doctor fees for something like fever?
+  -> [Medium] INIE12072025848044IEBOTA08901 (2).pdf p.2; Medicover Superior PW.pdf p.17; Medicover Superior PW.pdf p.23; Medicover Superior PW.pdf p.21
+
+Traceback (most recent call last):
+  File "C:\Users\shall\policy-qa\main.py", line 61, in <module>
+    main()
+  File "C:\Users\shall\policy-qa\main.py", line 41, in main
+    run(
+  File "C:\Users\shall\policy-qa\src\query.py", line 131, in run
+    df.to_excel(output_file, index=False)
+  File "C:\Users\shall\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\util\_decorators.py", line 333, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\shall\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\core\generic.py", line 2417, in to_excel
+    formatter.write(
+  File "C:\Users\shall\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\formats\excel.py", line 943, in write
+    writer = ExcelWriter(
+  File "C:\Users\shall\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\excel\_openpyxl.py", line 61, in __init__
+    super().__init__(
+  File "C:\Users\shall\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\excel\_base.py", line 1246, in __init__
+    self._handles = get_handle(
+  File "C:\Users\shall\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\common.py", line 882, in get_handle
+    handle = open(handle, ioargs.mode)
+PermissionError: [Errno 13] Permission denied: 'C:\\Users\\shall\\policy-qa\\output\\answers.xlsx'
+PS C:\Users\shall\policy-qa> python main.py query
+Question column: 'Question' | 2 questions
+
+[1/2] 1) Does this poolicy cover dental claims , example getting a root canal?
+  -> [Medium] Medicover Superior PW.pdf p.19; Medicover Superior PW.pdf p.23; Medicover Superior PW.pdf p.17; Medicover Superior PW.pdf p.29; Medicover Superior PW.pdf p.20
+
+[2/2] 2) Does this policy cover doctor fees for something like fever?
+  -> [Medium] INIE12072025848044IEBOTA08901 (2).pdf p.2; Medicover Superior PW.pdf p.17; Medicover Superior PW.pdf p.23; Medicover Superior PW.pdf p.21
+
+Results saved to C:\Users\shall\policy-qa\output\answers.xlsx
+PS C:\Users\shall\policy-qa> python main.py query
+Question column: 'Question' | 1 questions
+
+[1/1] 1) Up to how much can I cover with my insurance for accidents?
+  -> [Medium] Medicover Superior PW.pdf p.19; INIE12072025848044IEBOTA08901 (2).pdf p.3; Medicover Superior PW.pdf p.17; Medicover-Superior-IPID.pdf.pdf p.2; INIE12072025848044IEBOTA08901 (2).pdf p.2
+
+Results saved to C:\Users\shall\policy-qa\output\answers.xlsx
+PS C:\Users\shall\policy-qa>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
